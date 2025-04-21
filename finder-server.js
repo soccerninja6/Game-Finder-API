@@ -1,7 +1,7 @@
 const express = require("express");
 const axios = require("axios");
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 const MIN_PLACE_ID = 10000000;
 const MAX_PLACE_ID = 1700000000;

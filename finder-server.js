@@ -19,7 +19,8 @@ async function getGameInfo(placeId) {
             !data ||
             !data.name ||
             data.isPlayable === false ||
-            data.description?.trim() === starterPlaceDesc
+            data.description?.trim() === starterPlaceDesc ||
+            data.name.trim().toLowerCase() === "roblox"
         ) {
             throw new Error("Game is a starter place or unplayable.");
         }

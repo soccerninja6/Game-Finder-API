@@ -9,7 +9,11 @@ const MAX_RETRIES = 15;
 
 async function getGameInfo(placeId) {
     const url = `https://games.roblox.com/v1/games?universeIds=${placeId}`;
-    const starterPlaceDesc = "This is your very first Roblox creation. Check it out, then make it your own with Roblox Studio!";
+
+    const starterPlaceDescriptions = [
+        "This is your very first ROBLOX creation. Check it out, then make it your own with ROBLOX Studio!",
+        "This is your very first Roblox creation. Check it out, then make it your own with Roblox Studio!"
+    ];
 
     try {
         const response = await axios.get(url);
@@ -19,8 +23,7 @@ async function getGameInfo(placeId) {
             !data ||
             !data.name ||
             data.isPlayable === false ||
-            data.description?.trim() === starterPlaceDesc ||
-            data.name.trim().toLowerCase() === "roblox"
+            starterPlaceDescriptions.includes(data.description?.trim())
         ) {
             throw new Error("Game is a starter place or unplayable.");
         }

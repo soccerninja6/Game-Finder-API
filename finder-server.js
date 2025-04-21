@@ -9,16 +9,23 @@ const MAX_RETRIES = 15;
 
 async function getGameInfo(placeId) {
     const url = `https://games.roblox.com/v1/games?universeIds=${placeId}`;
+    const starterPlaceDesc = "This is your very first Roblox creation. Check it out, then make it your own with Roblox Studio!";
 
     try {
         const response = await axios.get(url);
         const data = response.data.data[0];
 
-        if (!data || !data.name || data.isPlayable === false) {
-            throw new Error("Game is not playable or doesn't exist.");
+        if (
+            !data ||
+            !data.name ||
+            data.isPlayable === false ||
+            data.description?.trim() === starterPlaceDesc
+        ) {
+            throw new Error("Game is a starter place or unplayable.");
         }
 
         return {
+            id: data.rootPlaceId,
             name: data.name,
             description: data.description || "No description",
             url: `https://www.roblox.com/games/${data.rootPlaceId}`,

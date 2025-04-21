@@ -11,19 +11,22 @@ async function getGameInfo(placeId) {
     const url = `https://games.roblox.com/v1/games?universeIds=${placeId}`;
 
     const starterPlaceDescriptions = [
-        "This is your very first ROBLOX creation. Check it out, then make it your own with ROBLOX Studio!",
-        "This is your very first Roblox creation. Check it out, then make it your own with Roblox Studio!"
+        "this is your very first roblox creation. check it out, then make it your own with roblox studio!",
+        "this is your very first roblox creation. check it out, then make it your own with roblox studio!" // both are same when lowercased
     ];
 
     try {
         const response = await axios.get(url);
         const data = response.data.data[0];
 
+        // Normalize the description
+        const desc = (data.description || "").trim().toLowerCase();
+
         if (
             !data ||
             !data.name ||
             data.isPlayable === false ||
-            starterPlaceDescriptions.includes(data.description?.trim())
+            starterPlaceDescriptions.includes(desc)
         ) {
             throw new Error("Game is a starter place or unplayable.");
         }
